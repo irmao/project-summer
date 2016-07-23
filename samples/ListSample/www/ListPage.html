@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="ListSample">
+<head>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+  <!-- external dependencies -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+
+  <!-- local dependencies -->
+  <script src="app.js"></script>
+  <script src="controllers/ListPageController.js"></script>
+</head>
+
+<body ng-controller="ListSampleController">
+
+  <div class="list-group">
+    <div class="list-group-item" 
+      ng-repeat="item in items" 
+      ng-click="changeSelectedId(item.id)"
+      ng-class="{active: item.id === selectedId}">
+      {{item.name}}
+      <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"
+      ng-click="removeItem(item.id)"></span>
+    </div>
+  </div>
+
+  <button type="button" class="btn btn-default" 
+      ng-disabled="isUnsetSelectedId()" 
+      ng-click="unsetSelectedId()">Add</button>
+
+  <button type="button" class="btn btn-default"  
+      ng-click="restoreItems()">Restore items</button>
+</body>
+
+</html>
