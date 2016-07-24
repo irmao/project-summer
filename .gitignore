@@ -2,3 +2,5 @@ samples/ListSample/platforms/
 samples/ListSample/plugins/
 samples/NavigationSample/platforms
 samples/NavigationSample/plugins
+samples/ModalSample/platforms
+samples/ModalSample/plugins
