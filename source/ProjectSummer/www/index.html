@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="ProjectSummerApp">
 <head>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
     <meta name="format-detection" content="telephone=no">
@@ -8,16 +8,25 @@
 
     <title>Project Summer</title>
 
+    <!-- Libs -->
     <link rel="stylesheet" href="libs/bootstrap/3.3.6/css/bootstrap.min.css">
 
-    <script src="libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="libs/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="libs/angularjs/1.5.8/angular.min.js"></script>
-    <script src="libs/angularjs/1.2.25/angular-route.min.js"></script>        
+    <script type="text/javascript" src="libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="libs/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="libs/angularjs/1.5.8/angular.min.js"></script>
+    <script type="text/javascript" src="libs/angularjs/1.2.25/angular-route.min.js"></script>
+
+    <!-- Local dependencies -->
+    <script type="text/javascript" src="js/Init.js"></script>
+    <script type="text/javascript" src="js/Routes.js"></script>
+    <script type="text/javascript" src="models/ExerciseModel.js"></script>
+    <script type="text/javascript" src="models/ExerciseMetricsModel.js"></script>
+    <script type="text/javascript" src="services/ConnectionService.js"></script>
+    <script type="text/javascript" src="controllers/ManageExerciseController.js"></script>
 </head>
 <body>
 
-    <div>
+    <div ng-view>
         <!-- content goes here -->
     </div>
 
