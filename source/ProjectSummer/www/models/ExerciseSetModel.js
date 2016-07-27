@@ -4,4 +4,5 @@ var ExerciseSetModel = function (setId, setName, setExerc) {
     this.id = setId;
     this.name = setName;
     this.exercises = setExerc;
+    this.isExercise = false;
 };

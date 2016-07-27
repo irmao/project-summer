@@ -5,4 +5,5 @@ var ExerciseModel = function (exId, exName, exMetrics, exLoad) {
     this.name = exName;
     this.metrics = exMetrics;
     this.load = exLoad;
+    this.isExercise = true;
 };

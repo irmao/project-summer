@@ -1,17 +1,17 @@
 <div class="list-group" ng-init="initController()">
   <div class="list-group-item" 
-      ng-repeat="exercise in exerciseSet.exercises"
-      ng-class="{active: !isExerciseDisabled(exercise.id),
-      disabled: isExerciseDone(exercise.id)}">
+      ng-repeat="exercise in exerciseList"
+      ng-class="{active: exercise.view_id === enabledExerciseId,
+                 disabled: exercise.view_id < enabledExerciseId}">
       <h3>{{exercise.name}}</h3>
       <p>
         {{exercise.load}} {{exercise.metrics.unit}} 
         <button type="button" class="btn btn-default pull-right" 
-        ng-disabled="isExerciseDisabled(exercise.id)"
+        ng-disabled="exercise.view_id !== enabledExerciseId"
         ng-click="buttonDoneClick()">Done</button>
       </p>
   </div>
-  <div class="active list-group-item" ng-show="finishedExercises()" >
+  <div class="active list-group-item" ng-show="exerciseList.length === enabledExerciseId" >
       <h3>Well Done!</h3>
   </div>
 </div>

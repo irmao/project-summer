@@ -6,39 +6,25 @@
   app.controller('TrainingController', function($scope) {
       $scope.initController = function () {
         var connectionService = new ConnectionService();
-        $scope.exerciseSet = connectionService.getExerciseSetById(0);
-        $scope.enabledExerciseIndex = 0;        
-      };
 
-      $scope.exerciseDone = function () {
-        $scope.selectedId = id;
-      };
-
-      $scope.isExerciseDisabled = function (id) {
-        if ($scope.enabledExerciseIndex >= $scope.exerciseSet.exercises.length) {
-          return true;
-        }
-
-        return id !== $scope.exerciseSet.exercises[$scope.enabledExerciseIndex].id;
-      };
-
-      $scope.isExerciseDone = function (id) {
-        for (var idx = 0; idx < $scope.exerciseSet.exercises.length; idx++) {
-          if (id === $scope.exerciseSet.exercises[idx].id) {
-            break;
-          }
-        }
+        var exerciseSet = connectionService.getExerciseSetById(0);
+        exerciseSet.exercises.push(connectionService.getExerciseSetById(0));
         
-        return idx < $scope.enabledExerciseIndex;
-      }
+        var exerciseSetService = new ExerciseSetService();
+        var exerciseList = exerciseSetService.getExerciseList(exerciseSet);
+        $scope.exerciseList = exerciseList;
 
-      $scope.finishedExercises = function () {
-        return $scope.enabledExerciseIndex === $scope.exerciseSet.exercises.length;
-      }
+        var index = 0;
+        $scope.exerciseList.forEach(function(el) {
+          el.view_id = index;
+          index++;
+        }, this);
+        
+        $scope.enabledExerciseId = 0;        
+      };
 
       $scope.buttonDoneClick = function () {
-        $scope.enabledExerciseIndex++;
-        console.log($scope.enabledExerciseIndex);
+        $scope.enabledExerciseId++;
       };
   });
 
