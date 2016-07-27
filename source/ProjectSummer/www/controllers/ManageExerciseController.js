@@ -4,15 +4,17 @@
   var app = angular.module('ProjectSummerApp');
 
   app.controller('ManageExerciseController', function($scope) {
-      $scope.selectedId = '';
+      $scope.initController = function (params) {
+        $scope.selectedId = '';
+        
+        var connectionService = new ConnectionService();
+        $scope.allExercises = connectionService.getAllExercises();  
+      }
+      
       
       $scope.changeSelectedId = function (id) {
         $scope.selectedId = id;
       };
-
-      var connectionService = new ConnectionService();
-      $scope.allExercises = connectionService.getAllExercises();
-      console.log($scope.allExercises);
   });
 
 })();

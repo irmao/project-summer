@@ -1,6 +1,10 @@
 "use strict";
 
-var ExerciseMetricsModel = function (exId, exName) {
+var ExerciseMetricsModel = function (exId, exType, exUnit) {
     this.id = exId;
-    this.name = exName;
+    this.type = exType;
+    this.unit = exUnit;
 };
+
+ExerciseMetricsModel.SET = 0;
+ExerciseMetricsModel.TIME = 1;
