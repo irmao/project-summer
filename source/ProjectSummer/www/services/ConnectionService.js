@@ -7,9 +7,9 @@ var ConnectionService = function () {
         var model;
 
         if (id === 0) {
-            model = new ExerciseMetricsModel(0, 'set');
+            model = new ExerciseMetricsModel(0, ExerciseMetricsModel.SET, '');
         } else if (id === 1) {
-            model = new ExerciseMetricsModel(1, 'time');
+            model = new ExerciseMetricsModel(1, ExerciseMetricsModel.TIME, 'min');
         }
 
         return model;
@@ -53,6 +53,10 @@ var ConnectionService = function () {
         }
 
         return models;
+    }
+
+    this.getExerciseSetById = function (id) {
+        return new ExerciseSetModel(id, 'Home Exercises', this.getAllExercises());
     }
     
 };

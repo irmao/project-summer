@@ -9,6 +9,10 @@
             templateUrl : 'pages/ManageExercisePage.html',
             controller  : 'ManageExerciseController'
         })
+        .when('/Training', {
+            templateUrl : 'pages/TrainingPage.html',
+            controller  : 'TrainingController'
+        })
         .otherwise({
             redirectTo: '/ManageExercise'
         });
