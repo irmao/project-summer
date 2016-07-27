@@ -11,7 +11,6 @@
         $scope.allExercises = connectionService.getAllExercises();  
       }
       
-      
       $scope.changeSelectedId = function (id) {
         $scope.selectedId = id;
       };

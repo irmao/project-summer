@@ -8,3 +8,4 @@ var ExerciseMetricsModel = function (exId, exType, exUnit) {
 
 ExerciseMetricsModel.SET = 0;
 ExerciseMetricsModel.TIME = 1;
+ExerciseMetricsModel.DISTANCE = 2;
