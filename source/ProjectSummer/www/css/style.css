@@ -1,0 +1,12 @@
+.plus-button-div {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2;
+  position: fixed;
+}
+
+.image-button {
+  width: 40px;
+  height: 40px;
+}
