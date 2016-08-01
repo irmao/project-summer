@@ -5,12 +5,15 @@
 
   app.config(function($stateProvider, $urlRouterProvider) {
       $stateProvider
+        .state('HomeState', {
+            url         : '/',
+            templateUrl : 'pages/HomePage.html',
+            controller  : 'HomeController'
+        })
         .state('NavigationBackState', {
             abstract    : true,
-            templateUrl : 'templates/navbar_back_template.html',
-            controller  : function ($scope, $state) {
-                $scope.pageTitle = $state.current.data.pageTitle; 
-            }
+            templateUrl : 'templates/NavigationBarBackTemplate.html',
+            controller  : 'NavigationBarBackController'
         })
         .state('ManageExerciseState', {
             url: '/ManageExercise',
@@ -18,16 +21,20 @@
             controller  : 'ManageExerciseController',
             parent      : 'NavigationBackState',
             data        : {
-                pageTitle :  "Manage Exercises"
+                pageTitle : 'Manage Exercises'
             }
         })
         .state('TrainingState', {
             url: '/Training',
             templateUrl : 'pages/TrainingPage.html',
-            controller  : 'TrainingController'
+            controller  : 'TrainingController',
+            parent      : 'NavigationBackState',
+            data        : {
+                pageTitle : 'Training'
+            }
         });
       
-      $urlRouterProvider.otherwise('/ManageExercise');
+      $urlRouterProvider.otherwise('/');
   });
 
 })();

@@ -5,6 +5,19 @@
   vertical-align: middle;
 }
 
+.homepage-maindiv {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  height: 100%;
+}
+
+.homepage-bottomdiv {
+  position: absolute;
+  width: 100%;
+  bottom: 20px;
+}
+
 .plus-button-div {
   bottom: 20px;
   right: 20px;
