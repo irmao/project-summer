@@ -1,5 +1,11 @@
+.navigation-bar {
+  background-color: #337ab7;
+  color: white;
+  width: 100%;
+  vertical-align: middle;
+}
+
 .plus-button-div {
-  position: absolute;
   bottom: 20px;
   right: 20px;
   z-index: 2;

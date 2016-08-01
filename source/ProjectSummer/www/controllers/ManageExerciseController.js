@@ -5,6 +5,8 @@
 
   app.controller('ManageExerciseController', function($scope) {
       $scope.initController = function (params) {
+        $scope.pageTitle = "Manage Exercises";
+        
         $scope.selectedId = '';
         
         var connectionService = new ConnectionService();
