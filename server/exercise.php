@@ -35,7 +35,7 @@
 
   if ($_GET['all']) {
     $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
-      "FROM `ps-exercise` AS exercise, `ps-metric` AS metric ". 
+      "FROM ps_exercise AS exercise, ps_metric AS metric ". 
       "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 1";
 
     $exercises = getExercises($query);
@@ -46,7 +46,7 @@
     $id = $_GET['setById'];
 
     $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
-      "FROM `ps-exercise` AS exercise, `ps-metric` AS metric, `ps-exercise-group` AS exercisegroup ". 
+      "FROM ps_exercise AS exercise, ps_metric AS metric, ps_exercise_group AS exercisegroup ". 
       "WHERE exercise.metric_id = metric.id AND exercise.id = exercisegroup.exercise_id AND ".
       "exercisegroup.parent_exercise_id = $id ORDER BY exercisegroup.order_in_group";
     $exercises = getExercises($query);
