@@ -3,11 +3,15 @@
 
   var app = angular.module('ProjectSummerApp.controllers');
 
-  app.controller('NavigationBarBackController', function($scope, $state) {
-      $scope.pageTitle = $state.current.data.pageTitle; 
+  app.$inject = ['$scope', 'StateService'];
+
+  app.controller('NavigationBarBackController', function($scope, StateService) {
+      $scope.initController = function () {        
+          $scope.pageTitle = StateService.getCurrentStateData().pageTitle;
+      }; 
 
       $scope.navigateBack = function () {
-          $state.go('HomeState');
+          StateService.goToState('HomeState');
       }
   });
 

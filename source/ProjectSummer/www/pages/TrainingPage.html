@@ -3,9 +3,9 @@
       ng-repeat="exercise in exerciseList"
       ng-class="{active: exercise.view_id === enabledExerciseId,
                  disabled: exercise.view_id < enabledExerciseId}">
-      <h3>{{exercise.name}}</h3>
+      <h3>{{::exercise.name}}</h3>
       <p>
-        {{exercise.load}} {{exercise.metrics.unit}} 
+        {{::exercise.load}} {{::exercise.metrics.unit}} 
         <button type="button" class="btn btn-default pull-right" 
         ng-disabled="exercise.view_id !== enabledExerciseId"
         ng-click="buttonDoneClick()">Done</button>

@@ -1,6 +1,6 @@
-<div class="navbar-header navbar-fixed-top navigation-bar">
+<div class="navbar-header navbar-fixed-top navigation-bar" ng-init="initController()">
     <span class="navbar-brand glyphicon glyphicon-arrow-left pull-left" ng-click="navigateBack()"></span>
-    <span class="navbar-brand">{{pageTitle}}</span>
+    <span class="navbar-brand">{{::pageTitle}}</span>
 </div>
 
 <div ui-view style="position: absolute; top: 49px; width: 100%;">

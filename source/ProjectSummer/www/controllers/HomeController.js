@@ -3,16 +3,22 @@
 
   var app = angular.module('ProjectSummerApp.controllers');
 
-  app.controller('HomeController', function($scope, $state) {
+  app.$inject = ['$scope', 'StateService'];
+
+  app.controller('HomeController', function($scope, StateService) {
       $scope.initController = function () {        
       };
 
       $scope.buttonEODClick = function () {
-        $state.go('TrainingState');
+        StateService.goToState('TrainingState');
+      };
+
+      $scope.buttonPlanningClick = function () {
+        StateService.goToState('PlanningState');
       };
 
       $scope.buttonUnplannedClick = function () {
-        $state.go('ManageExerciseState');
+        StateService.goToState('ManageExerciseState');
       };
   });
 

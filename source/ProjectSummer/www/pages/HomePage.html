@@ -1,9 +1,22 @@
 <div class="homepage-maindiv" ng-init="initController()">
   <div class="homepage-bottomdiv">
-    <button type="button" class="btn btn-default pull-left" 
-          ng-click="buttonUnplannedClick()">Unplanned Training</button>
+    <table width="100%">
+      <tr>
+        <td>
+          <button type="button" class="btn btn-default pull-left" 
+            ng-click="buttonUnplannedClick()">Unplanned Training</button>
+        </td>
 
-    <button type="button" class="btn btn-default pull-right" 
-          ng-click="buttonEODClick()">Exercise of the Day</button>
+        <td>
+          <button type="button" class="btn btn-default" 
+            ng-click="buttonPlanningClick()">Planning</button>
+        </td>
+
+        <td>
+          <button type="button" class="btn btn-default pull-right" 
+            ng-click="buttonEODClick()">Exercise of the Day</button>
+        </td>
+      </tr>
+    </table>
   </div>
 </div>

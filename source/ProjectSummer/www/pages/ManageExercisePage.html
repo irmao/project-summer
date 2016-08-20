@@ -3,7 +3,7 @@
       ng-repeat="exercise in getAllExercises()" 
       ng-click="changeSelectedId(exercise.id)" 
       ng-class="{active: exercise.id === selectedId}">
-      {{exercise.name}}
+      {{::exercise.name}}
     <span class="glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
   </div>
 </div>

@@ -24,6 +24,15 @@
                 pageTitle : 'Manage Exercises'
             }
         })
+        .state('PlanningState', {
+            url: '/Planning',
+            templateUrl : 'pages/PlanningPage.html',
+            controller  : 'PlanningController',
+            parent      : 'NavigationBackState',
+            data        : {
+                pageTitle : 'My Planning'
+            }
+        })
         .state('TrainingState', {
             url: '/Training',
             templateUrl : 'pages/TrainingPage.html',
