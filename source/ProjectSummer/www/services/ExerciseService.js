@@ -14,14 +14,21 @@
          * Returns a promise of getting a list with all exercises
          */
         getAllExercises: function() {
-          return ConnectionService.executeServerRequest('/exercise.php?all=1');
+          return ConnectionService.executeServerRequest('/exercise.php?findAllExercises=1');
         },
 
         /**
          * Returns a promise of getting a list of exercises given the exercise set id 
          */
-        getExerciseSetById: function(id) {
-          return ConnectionService.executeServerRequest('/exercise.php?setById='+id);
+        getExercisesByExerciseSetId: function(id) {
+          return ConnectionService.executeServerRequest('/exercise.php?findExercisesByExerciseSetId='+id);
+        },
+
+        /**
+         * Returns o promise of getting a list with all exercise sets
+         */
+        getAllExerciseSets: function() {
+          return ConnectionService.executeServerRequest('/exercise.php?findAllExerciseSets=1');
         }
       };
   });

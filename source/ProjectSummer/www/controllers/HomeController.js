@@ -18,7 +18,7 @@
       };
 
       $scope.buttonUnplannedClick = function () {
-        StateService.goToState('ManageExerciseState');
+        StateService.goToState('UnplannedTrainingState');
       };
   });
 

@@ -33,7 +33,8 @@
     }
   }
 
-  if (isset($_GET['all'])) {
+  // find all exercises
+  if (isset($_GET['findAllExercises'])) {
     $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
       "FROM ps_exercise AS exercise, ps_metric AS metric ". 
       "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 1";
@@ -42,8 +43,9 @@
     send_response($exercises);
   }
 
-  if (isset($_GET['setById'])) {
-    $id = $_GET['setById'];
+  // find an exercises of an exercise set with the given id
+  else if (isset($_GET['findExercisesByExerciseSetId'])) {
+    $id = $_GET['findExercisesByExerciseSetId'];
 
     $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
       "FROM ps_exercise AS exercise, ps_metric AS metric, ps_exercise_group AS exercisegroup ". 
@@ -52,4 +54,14 @@
     $exercises = getExercises($query);
     send_response($exercises);
   }
+
+  // find all exercise sets
+  else if (isset($_GET['findAllExerciseSets'])) {
+    $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
+      "FROM ps_exercise AS exercise, ps_metric AS metric ". 
+      "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 0";
+
+    $exerciseSets = getExercises($query);
+    send_response($exerciseSets);
+  } 
 ?>

@@ -1,0 +1,13 @@
+<div class="list-group" ng-init="initController()">
+  <div class="list-group-item" 
+      ng-repeat="exerciseSet in getAllExercises()" 
+      ng-click="changeSelectedId(exerciseSet.id)" 
+      ng-class="{active: exerciseSet.id === selectedId}">
+      {{::exerciseSet.name}}
+  </div>
+</div>
+
+<button type="button" class="btn btn-default pull-right" 
+          ng-click="buttonStartClick()"
+          ng-disabled="selectedId === ''">Start</button>
+

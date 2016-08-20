@@ -41,6 +41,15 @@
             data        : {
                 pageTitle : 'Training'
             }
+        })
+        .state('UnplannedTrainingState', {
+            url: '/UnplannedTraining',
+            templateUrl : 'pages/UnplannedTrainingPage.html',
+            controller  : 'UnplannedTrainingController',
+            parent      : 'NavigationBackState',
+            data        : {
+                pageTitle : 'Unplanned Training'
+            }
         });
       
       $urlRouterProvider.otherwise('/');

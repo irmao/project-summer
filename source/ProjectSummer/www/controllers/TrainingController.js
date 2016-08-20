@@ -16,7 +16,7 @@
        * Loads the exercises from the database and adds them to the scope
        */
       function loadExercises () {
-        $scope.promise = ExerciseService.getExerciseSetById(12);
+        $scope.promise = ExerciseService.getExercisesByExerciseSetId(12);
 
         var successCallback = function (response) {
           var data = response.data;
