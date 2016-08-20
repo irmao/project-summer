@@ -35,6 +35,6 @@
   }
 
   function _fetch_assoc($result) {
-    return sqlsrv_fetch_assoc($result);
+    return sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC);
   }
 ?>
