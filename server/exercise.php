@@ -7,7 +7,7 @@
     $conn = start_connection();
     $result = execute_query($conn, $query);
 
-    if (get_num_rows($result) > 0) {
+    if (has_rows($result) > 0) {
       // creates the json
       $result_json = '[';
       while ($row = fetch_assoc($result)) {

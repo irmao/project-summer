@@ -1,37 +1,25 @@
 <?php
   error_reporting( E_ALL );
   
-  require('strings.php');
+  require('connection_mysql.php');
 
   function start_connection() {
-    $servername = getServername();
-    $username = getUsername();
-    $password = getPassword();
-    $database = getDatabase();
-    $conn = mysqli_connect($servername, $username, $password, $database) or die('Could not connect: ' . mysql_error().'<br/>');
-
-    return $conn;
+    return _start_connection();
   }
 
   function close_connection($conn) {
-    mysqli_close($conn);
+    _close_connection($conn);
   }
 
   function execute_query($conn, $query) {
-    $result = mysqli_query($conn, $query);
-
-    if ($result === false ) {
-      printf("error: %s\n", mysqli_error($conn));
-    }
-
-    return $result;
+    return _execute_query($conn, $query);
   }
 
-  function get_num_rows($result) {
-    return mysqli_num_rows($result);
+  function has_rows($result) {
+    return _has_rows($result);
   }
 
   function fetch_assoc($result) {
-    return mysqli_fetch_assoc($result);
+    return _fetch_assoc($result);
   }
 ?>
