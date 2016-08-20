@@ -1,26 +1,22 @@
 (function(){
   "use strict";
  
-  var app = angular.module('ProjectSummerApp');
+  var app = angular.module('ProjectSummerApp.services');
 
-  app.factory('ConnectionService', function($http) {
-      return {
-        /**
-         * Returns a promise of a list with all exercises
-         */
-        getAllExercises: function() {
-          return executeServerRequest('/exercise.php?all=1');
-        }
-      };
-      
+  /**
+   * Service responsible for making HTTP requests to the backend
+   */
+  app.service('ConnectionService', function($http) {
+    return {
       /**
        * Executes a JSONP request
        */
-      function executeServerRequest(url) {
+        executeServerRequest : function (url) {
         var hostaddr = 'http://localhost';
         var fulladdr = hostaddr + url + '&callback=JSON_CALLBACK';
         return $http.jsonp(fulladdr);
       }
+    };      
   });
 
 })();

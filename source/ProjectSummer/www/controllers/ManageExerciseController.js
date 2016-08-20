@@ -1,11 +1,11 @@
 (function(){
   "use strict";
 
-  var app = angular.module('ProjectSummerApp');
+  var app = angular.module('ProjectSummerApp.controllers');
 
-  app.$inject = ['$scope', 'ConnectionService'];
+  app.$inject = ['$scope', 'ExerciseService'];
 
-  app.controller('ManageExerciseController', function($scope, ConnectionService) {
+  app.controller('ManageExerciseController', function($scope, ExerciseService) {
       /**
        * Initializes the controller
        */
@@ -34,7 +34,7 @@
        * Loads the exercises from the database and adds them to the scope
        */
       function loadExercises () {
-        $scope.promise = ConnectionService.getAllExercises();
+        $scope.promise = ExerciseService.getAllExercises();
 
         var successCallback = function (response) {
           var data = response.data;

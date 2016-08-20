@@ -1,7 +1,7 @@
 (function(){
   "use strict";
 
-  var app = angular.module('ProjectSummerApp');
+  var app = angular.module('ProjectSummerApp.controllers');
 
   app.controller('HomeController', function($scope, $state) {
       $scope.initController = function () {        

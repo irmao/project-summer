@@ -1,27 +1,48 @@
 (function(){
   "use strict";
 
-  var app = angular.module('ProjectSummerApp');
+  var app = angular.module('ProjectSummerApp.controllers');
 
-  app.controller('TrainingController', function($scope) {
+  app.controller('TrainingController', function($scope, ExerciseService) {
       $scope.initController = function () {
-        var connectionService = new ConnectionService();
-        var exerciseSetService = new ExerciseSetService();
-
-        $scope.exerciseList = exerciseSetService.getExerciseList(connectionService.getExerciseSetById(0));
-
-        var index = 0;
-        $scope.exerciseList.forEach(function(el) {
-          el.view_id = index;
-          index++;
-        }, this);
-        
-        $scope.enabledExerciseId = 0;        
+        loadExercises();
       };
 
       $scope.buttonDoneClick = function () {
         $scope.enabledExerciseId++;
       };
+
+      /**
+       * Loads the exercises from the database and adds them to the scope
+       */
+      function loadExercises () {
+        $scope.promise = ExerciseService.getExerciseSetById(12);
+
+        var successCallback = function (response) {
+          var data = response.data;
+          
+          var models = [];
+          for (var i in data) {
+            models.push(new ExerciseModel().fromJSON(data[i]));
+          }
+
+          $scope.exerciseList = models;
+
+          var index = 0;
+          $scope.exerciseList.forEach(function(el) {
+            el.view_id = index;
+            index++;
+          }, this);
+        
+          $scope.enabledExerciseId = 0; 
+        } 
+
+        var errorCallback = function (response) {
+          console.log('Error: ', response);
+        }
+
+        $scope.promise.then(successCallback, errorCallback);
+      }
   });
 
 })();
