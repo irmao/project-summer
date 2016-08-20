@@ -33,7 +33,7 @@
     }
   }
 
-  if ($_GET['all']) {
+  if (isset($_GET['all'])) {
     $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
       "FROM ps_exercise AS exercise, ps_metric AS metric ". 
       "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 1";
@@ -42,7 +42,7 @@
     send_response($exercises);
   }
 
-  if ($_GET['setById']) {
+  if (isset($_GET['setById'])) {
     $id = $_GET['setById'];
 
     $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
