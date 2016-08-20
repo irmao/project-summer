@@ -1,7 +1,7 @@
 <?php
   error_reporting( E_ALL );
   
-  require('connection_mysql.php');
+  require('connection_config.php');
 
   function start_connection() {
     return _start_connection();

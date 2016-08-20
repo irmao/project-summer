@@ -1,8 +1,6 @@
 <?php
   error_reporting( E_ALL );
   
-  require('strings.php');
-
   function _start_connection() {
     $servername = getServername();
     $username = getUsername();
