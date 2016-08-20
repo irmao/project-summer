@@ -3,19 +3,56 @@
 
   var app = angular.module('ProjectSummerApp');
 
-  app.controller('ManageExerciseController', function($scope) {
+  app.$inject = ['$scope', 'ConnectionService'];
+
+  app.controller('ManageExerciseController', function($scope, ConnectionService) {
+      /**
+       * Initializes the controller
+       */
       $scope.initController = function (params) {
         $scope.pageTitle = "Manage Exercises";
-        
         $scope.selectedId = '';
         
-        var connectionService = new ConnectionService();
-        $scope.allExercises = connectionService.getAllExercises();  
+        loadExercises();
       }
       
+      /**
+       * Changes the selected id to the id given as argument
+       */
       $scope.changeSelectedId = function (id) {
         $scope.selectedId = id;
       };
+
+      /**
+       * Returns a list with all the exercises
+       */
+      $scope.getAllExercises = function () {
+        return $scope.allExercises;
+      }
+
+      /**
+       * Loads the exercises from the database and adds them to the scope
+       */
+      function loadExercises () {
+        $scope.promise = ConnectionService.getAllExercises();
+
+        var successCallback = function (response) {
+          var data = response.data;
+          
+          var models = [];
+          for (var i in data) {
+            models.push(new ExerciseModel().fromJSON(data[i]));
+          }
+
+          $scope.allExercises = models;
+        } 
+
+        var errorCallback = function (response) {
+          console.log('Error: ', response);
+        }
+
+        $scope.promise.then(successCallback, errorCallback);
+      }
   });
 
 })();
