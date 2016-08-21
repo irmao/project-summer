@@ -33,3 +33,16 @@
 .pull-center {
   text-align: center;
 }
+
+.text-button-90 {
+  width: 90px;
+}
+
+.text-button-200 {
+  width: 200px;
+}
+
+.planningpage-button-wrapper {
+  padding-top: 15px; 
+  padding-bottom: 15px;
+}

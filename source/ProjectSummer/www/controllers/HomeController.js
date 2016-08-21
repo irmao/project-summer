@@ -20,6 +20,10 @@
       $scope.buttonUnplannedClick = function () {
         StateService.goToState('UnplannedTrainingState');
       };
+
+      $scope.buttonInfoClick = function () {
+        StateService.goToState('AboutState');
+      };
   });
 
 })();

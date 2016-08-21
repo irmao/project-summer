@@ -1,20 +1,27 @@
+<div class="navbar-header navbar-fixed-top navigation-bar" ng-init="initController()">
+    <span class="navbar-brand glyphicon glyphicon-sunglasses pull-left"></span>
+    <div class="navbar-brand">Project Summer</div>
+    <span class="navbar-brand glyphicon glyphicon-info-sign pull-right" ng-click="buttonInfoClick()"></span>
+    <span class="navbar-brand glyphicon glyphicon-cog pull-right"></span>
+</div>
+
 <div class="homepage-maindiv" ng-init="initController()">
   <div class="homepage-bottomdiv">
     <table width="100%">
       <tr>
         <td>
-          <button type="button" class="btn btn-default pull-left" 
-            ng-click="buttonUnplannedClick()">Unplanned Training</button>
+          <button type="button" class="btn btn-default pull-left text-button-90" 
+            ng-click="buttonUnplannedClick()">Unplanned</button>
+        </td>
+
+        <td class="pull-center">
+          <button type="button" class="btn btn-default text-button-90" 
+            ng-click="buttonPlanningClick()">Plan</button>
         </td>
 
         <td>
-          <button type="button" class="btn btn-default" 
-            ng-click="buttonPlanningClick()">Planning</button>
-        </td>
-
-        <td>
-          <button type="button" class="btn btn-default pull-right" 
-            ng-click="buttonEODClick()">Exercise of the Day</button>
+          <button type="button" class="btn btn-default pull-right text-button-90" 
+            ng-click="buttonEODClick()">Train</button>
         </td>
       </tr>
     </table>

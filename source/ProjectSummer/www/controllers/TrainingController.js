@@ -5,11 +5,16 @@
 
   app.controller('TrainingController', function($scope, ExerciseService, StateService) {
       $scope.initController = function () {
+        $scope.exerciseListLoaded = false;
         loadExercises(StateService.getStateParams()['exerciseSetId']);
       };
 
       $scope.buttonDoneClick = function () {
         $scope.enabledExerciseId++;
+      };
+
+      $scope.isExerciseListLoaded = function () {
+        return $scope.exerciseListLoaded;
       };
 
       /**
@@ -31,13 +36,14 @@
           }
 
           $scope.exerciseList = models;
-
+          
           var index = 0;
           $scope.exerciseList.forEach(function(el) {
             el.view_id = index;
             index++;
           }, this);
         
+          $scope.exerciseListLoaded = true;
           $scope.enabledExerciseId = 0; 
         } 
 

@@ -50,6 +50,14 @@
             data        : {
                 pageTitle : 'Unplanned Training'
             }
+        })
+        .state('AboutState', {
+            url: '/About',
+            templateUrl : 'pages/AboutPage.html',
+            parent      : 'NavigationBackState',
+            data        : {
+                pageTitle : 'About'
+            }
         });
       
       $urlRouterProvider.otherwise('/');

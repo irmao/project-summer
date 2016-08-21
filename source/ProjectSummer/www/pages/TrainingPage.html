@@ -11,7 +11,8 @@
         ng-click="buttonDoneClick()">Done</button>
       </p>
   </div>
-  <div class="active list-group-item" ng-show="exerciseList.length === enabledExerciseId" >
+  <div class="active list-group-item" 
+    ng-show="isExerciseListLoaded() && exerciseList.length === enabledExerciseId" >
       <h3>Well Done!</h3>
   </div>
 </div>
