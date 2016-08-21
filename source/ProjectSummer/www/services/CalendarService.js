@@ -18,22 +18,31 @@
        *    callback for the cell click handler
        */
       createCalendar: function(locationId, events, dayClickFn) {
-          $('#'+locationId).fullCalendar({
-            header: 
-            /*
-            {
-              left: 'prev',
-              center: 'title',
-              right: 'next'
-            },
-            */
-            false,
-            defaultDate: new Date(),
-            editable: false,
-            eventLimit: true, // allow "more" link when too many events
-            dayClick: dayClickFn,
-            events: events
-          });
+          var calendar = $('#'+locationId);  
+          if (calendar.children().length < 2) {
+            calendar.fullCalendar({
+              header: 
+              /*
+              {
+                left: 'prev',
+                center: 'title',
+                right: 'next'
+              },
+              */
+              false,
+              defaultDate: new Date(),
+              editable: false,
+              eventLimit: true, // allow "more" link when too many events
+              dayClick: dayClickFn
+            });
+          }
+          
+          calendar.fullCalendar('removeEvents');
+
+          if (events) {  
+            calendar.fullCalendar('addEventSource', events);
+            calendar.fullCalendar('rerenderEvents');
+          }
       }
     };      
   });

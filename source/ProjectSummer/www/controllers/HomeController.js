@@ -3,9 +3,10 @@
 
   var app = angular.module('ProjectSummerApp.controllers');
 
-  app.controller('HomeController', function($scope, StateService, CalendarService) {
+  app.controller('HomeController', function($scope, StateService, CalendarService, EventService) {
       $scope.initController = function () {
-        CalendarService.createCalendar('calendar');
+        createCalendar();
+        loadEvents();
       };
 
       $scope.buttonEODClick = function () {
@@ -23,6 +24,31 @@
       $scope.buttonInfoClick = function () {
         StateService.goToState('AboutState');
       };
+
+      function loadEvents() {
+        $scope.promise = EventService.getAllEventsByUserId(1);
+
+        var successCallback = function (response) {
+          var data = response.data;
+          
+          var events = [];
+          for (var i in data) {
+            events.push(new EventModel().fromJSON(data[i]));
+          }
+          
+          createCalendar(events);          
+        } 
+
+        var errorCallback = function (response) {
+          console.log('Error: ', response);
+        }
+
+        $scope.promise.then(successCallback, errorCallback);
+      }
+
+      function createCalendar(events) {
+        CalendarService.createCalendar('calendar', events);
+      }
   });
 
 })();

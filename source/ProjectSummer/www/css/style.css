@@ -47,7 +47,7 @@
   padding-bottom: 15px;
 }
 
-#calendar {
+.calendar {
   position: absolute;
   top: 70px;
   font-size: 10px;
@@ -56,4 +56,9 @@
 
 .fc-basic-view .fc-body .fc-row {
     min-height: 2em;
+}
+
+td.no-border {
+  border-style: none;
+  border-width: 0;
 }
