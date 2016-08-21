@@ -3,9 +3,9 @@
 
   var app = angular.module('ProjectSummerApp.controllers');
 
-  app.controller('TrainingController', function($scope, ExerciseService) {
+  app.controller('TrainingController', function($scope, ExerciseService, StateService) {
       $scope.initController = function () {
-        loadExercises();
+        loadExercises(StateService.getStateParams()['exerciseSetId']);
       };
 
       $scope.buttonDoneClick = function () {
@@ -15,8 +15,12 @@
       /**
        * Loads the exercises from the database and adds them to the scope
        */
-      function loadExercises () {
-        $scope.promise = ExerciseService.getExercisesByExerciseSetId(12);
+      function loadExercises (exerciseSetId) {
+        if (!exerciseSetId) {
+          return;
+        }
+
+        $scope.promise = ExerciseService.getExercisesByExerciseSetId(exerciseSetId);
 
         var successCallback = function (response) {
           var data = response.data;

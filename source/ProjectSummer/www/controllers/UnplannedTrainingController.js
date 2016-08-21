@@ -34,7 +34,7 @@
        * Start button click event handler
        */
       $scope.buttonStartClick = function () {
-        StateService.goToState('TrainingState');
+        StateService.goToState('TrainingState', {exerciseSetId: $scope.selectedId});
       }
 
       /**

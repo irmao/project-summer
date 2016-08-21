@@ -6,17 +6,21 @@
   /**
    * Service responsible for change states, that is, navigating through pages
    */
-  app.service('StateService', function($state) {
+  app.service('StateService', function($state, $stateParams) {
     return {
       /**
         * Goes to the given state
         */
-        goToState : function (newState) {
-          $state.go(newState, null, {reload: true});
+        goToState : function (newState, params) {
+          $state.go(newState, params, {reload: true});
         },
 
         getCurrentStateData : function() {
           return $state.current.data;
+        },
+
+        getStateParams : function() {
+          return $stateParams;
         }
     };      
   });

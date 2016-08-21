@@ -34,7 +34,7 @@
             }
         })
         .state('TrainingState', {
-            url: '/Training',
+            url: '/Training/{exerciseSetId}',
             templateUrl : 'pages/TrainingPage.html',
             controller  : 'TrainingController',
             parent      : 'NavigationBackState',
