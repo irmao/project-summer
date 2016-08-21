@@ -1,5 +1,5 @@
 passwd.txt
-server/start_server.sh
+automation_scripts/start_server.sh
 server/connection_config.php
 samples/ListSample/platforms/
 samples/ListSample/plugins/
