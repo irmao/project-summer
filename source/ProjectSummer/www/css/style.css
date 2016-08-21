@@ -46,3 +46,14 @@
   padding-top: 15px; 
   padding-bottom: 15px;
 }
+
+#calendar {
+  position: absolute;
+  top: 70px;
+  font-size: 10px;
+  max-width: 400px;
+}
+
+.fc-basic-view .fc-body .fc-row {
+    min-height: 2em;
+}

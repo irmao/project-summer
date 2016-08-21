@@ -3,10 +3,9 @@
 
   var app = angular.module('ProjectSummerApp.controllers');
 
-  app.$inject = ['$scope', 'StateService'];
-
-  app.controller('HomeController', function($scope, StateService) {
-      $scope.initController = function () {        
+  app.controller('HomeController', function($scope, StateService, CalendarService) {
+      $scope.initController = function () {
+        CalendarService.createCalendar('calendar');
       };
 
       $scope.buttonEODClick = function () {

@@ -4,7 +4,7 @@
   var app = angular.module('ProjectSummerApp.services');
 
   /**
-   * Service responsible for change states, that is, navigating through pages
+   * Service responsible for state changes, that is, navigating through pages
    */
   app.service('StateService', function($state, $stateParams) {
     return {
@@ -15,10 +15,16 @@
           $state.go(newState, params, {reload: true});
         },
 
+        /**
+         * Gets the data of the current state
+         */
         getCurrentStateData : function() {
           return $state.current.data;
         },
 
+        /**
+         * Gets the state params
+         */
         getStateParams : function() {
           return $stateParams;
         }
