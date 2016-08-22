@@ -3,7 +3,7 @@
 var EventModel = function () {
     this.fromJSON = function (json) {
         this.id = json.id,
-        this.title = json.name,
+        this.title = '',
         this.start = new Date(json.event_date),
         this.allDay = true,
         this.color = this.nameToColor(json.name);
