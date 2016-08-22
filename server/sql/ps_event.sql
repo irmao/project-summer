@@ -2,7 +2,7 @@ CREATE TABLE ps_event (
   id int NOT NULL,
   event_type_id int NOT NULL,
   user_id int NOT NULL,
-  event_date date NOT NULL
+  event_date varchar(250) NOT NULL
 );
 
 INSERT INTO ps_event (id, event_type_id, user_id, event_date) VALUES
