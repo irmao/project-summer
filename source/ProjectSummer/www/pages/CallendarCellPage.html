@@ -1,0 +1,18 @@
+<div ng-init="initController()">
+  <!-- past cell -->
+  <div class="list-group">
+    <div class="list-group-item" 
+        ng-repeat="exercise in eventExerciseList">
+        <h3>{{::exercise.name}}</h3>
+        <p>
+          {{::exercise.load}} {{::exercise.metrics.unit}}
+          <span class="btn btn-default pull-right" style="background: {{::exercise.color}}; color: white;">{{::exercise.eventType}}</span> 
+        </p>
+    </div>
+  </div>
+
+  <!-- future / current date cell -->
+  <div ng-if="!isInThePast()">
+    future
+  </div>
+</div>

@@ -33,7 +33,10 @@
               defaultDate: new Date(),
               editable: false,
               eventLimit: true, // allow "more" link when too many events
-              dayClick: dayClickFn
+              dayClick: dayClickFn,
+              eventClick: function (event, jsEvent, view) {
+                dayClickFn(event.start, jsEvent, view);
+              }
             });
           }
           

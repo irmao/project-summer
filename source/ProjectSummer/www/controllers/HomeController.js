@@ -47,7 +47,11 @@
       }
 
       function createCalendar(events) {
-        CalendarService.createCalendar('calendar', events);
+        CalendarService.createCalendar('calendar', events, calendarCellClick);
+      }
+
+      function calendarCellClick(date, jsEvent, view) {
+        StateService.goToState('CalendarCellState', {cellDate: date.format()});
       }
   });
 

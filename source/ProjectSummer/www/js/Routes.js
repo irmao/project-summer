@@ -15,6 +15,11 @@
             templateUrl : 'templates/NavigationBarBackTemplate.html',
             controller  : 'NavigationBarBackController'
         })
+        .state('NavigationSaveState', {
+            abstract    : true,
+            templateUrl : 'templates/NavigationBarSaveTemplate.html',
+            controller  : 'NavigationBarSaveController'
+        })
         .state('ManageExerciseState', {
             url: '/ManageExercise',
             templateUrl : 'pages/ManageExercisePage.html',
@@ -58,8 +63,14 @@
             data        : {
                 pageTitle : 'About'
             }
+        })
+        .state('CalendarCellState', {
+            url: '/CallendarCell/{cellDate}',
+            templateUrl : 'pages/CallendarCellPage.html',
+            controller  : 'CallendarCellController',
+            parent      : 'NavigationSaveState'
         });
-      
+        
       $urlRouterProvider.otherwise('/');
   });
 

@@ -8,8 +8,7 @@ CREATE TABLE ps_event (
 INSERT INTO ps_event (id, event_type_id, user_id, event_date) VALUES
 (1, 1, 1, '2016-08-24'), -- default goal
 (2, 2, 1, '2016-08-22'), -- default planned
-(3, 3, 1, '2016-08-21'), -- done 1
-(4, 3, 1, '2016-08-20'); -- done 2  
+(3, 3, 1, '2016-08-21'), -- done
 
 ALTER TABLE ps_event
   ADD PRIMARY KEY (id);
