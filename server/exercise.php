@@ -8,7 +8,7 @@
       "FROM ps_exercise AS exercise, ps_metric AS metric ". 
       "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 1";
 
-      return buildExerciseListFromQuery($query);
+      return buildJSONExerciseListFromObjectList(buildExerciseListFromQuery($query));
   }
 
   function findExercisesByExerciseSetId($exerciseSetId) {
@@ -17,7 +17,7 @@
         "WHERE exercise.metric_id = metric.id AND exercise.id = exercisegroup.exercise_id AND ".
         "exercisegroup.parent_exercise_id = $exerciseSetId ORDER BY exercisegroup.order_in_group";
 
-      return buildExerciseListFromQuery($query);
+      return buildJSONExerciseListFromObjectList(buildExerciseListFromQuery($query));
   }
 
   function findAllExerciseSets() {
@@ -25,7 +25,27 @@
         "FROM ps_exercise AS exercise, ps_metric AS metric ". 
         "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 0";
 
-      return buildExerciseListFromQuery($query);
+      return buildJSONExerciseListFromObjectList(buildExerciseListFromQuery($query));
+  }
+
+  function buildJSONExerciseListFromObjectList($exerciseList) {
+     $result_json = '[';
+
+     foreach ($exerciseList as $row) {
+       $result_json = $result_json 
+          .'{"id":'.$row['id'].','
+          .'"name":"'.$row['name'].'",'
+          .'"metrics":'.'{"unit":"'.$row['unit'].'"},'
+          .'"load":'.$row['suggested_load'].','
+          .'"isExercise":'. ($row['is_exercise'] ? 'true' : 'false')
+          .'},';
+     }
+
+     // removes the extra ',' char
+     $result_json = substr($result_json, 0, -1);
+     $result_json = $result_json . ']';
+
+     return $result_json;
   }
 
   function buildExerciseListFromQuery($query) {
@@ -33,25 +53,23 @@
     $result = execute_query($conn, $query);
 
     if (has_rows($result) > 0) {
-      // creates the json
-      $result_json = '[';
+      $list = array();
+      
       while ($row = fetch_assoc($result)) {
-        $result_json = $result_json 
-          .'{"id":'.$row['id'].','
-          .'"name":"'.$row['name'].'",'
-          .'"metrics":'.'{"unit":"'.$row['unit'].'"},'
-          .'"load":'.$row['suggested_load'].','
-          .'"isExercise":'. ($row['is_exercise'] ? 'true' : 'false')
-          .'},';
-      }
+        $object = array(
+          'id' => $row['id'],
+          'name' => $row['name'],
+          'unit' => $row['unit'],
+          'suggested_load' => $row['suggested_load'],
+          'is_exercise' => $row['is_exercise'] 
+        );
 
-      // removes the extra ',' char
-      $result_json = substr($result_json, 0, -1);
-      $result_json = $result_json . ']';
+        array_push($list, $object);
+      }
 
       close_connection($conn);
 
-      return $result_json;
+      return $list;
     } else {
       // 404
       close_connection($conn);
