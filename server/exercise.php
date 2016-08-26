@@ -3,7 +3,32 @@
   require('connection.php');
   require('rest.php');
 
-  function getExercises($query) {
+  function findAllExercises() {
+     $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
+      "FROM ps_exercise AS exercise, ps_metric AS metric ". 
+      "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 1";
+
+      return buildExerciseListFromQuery($query);
+  }
+
+  function findExercisesByExerciseSetId($exerciseSetId) {
+      $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
+        "FROM ps_exercise AS exercise, ps_metric AS metric, ps_exercise_group AS exercisegroup ". 
+        "WHERE exercise.metric_id = metric.id AND exercise.id = exercisegroup.exercise_id AND ".
+        "exercisegroup.parent_exercise_id = $exerciseSetId ORDER BY exercisegroup.order_in_group";
+
+      return buildExerciseListFromQuery($query);
+  }
+
+  function findAllExerciseSets() {
+    $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
+        "FROM ps_exercise AS exercise, ps_metric AS metric ". 
+        "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 0";
+
+      return buildExerciseListFromQuery($query);
+  }
+
+  function buildExerciseListFromQuery($query) {
     $conn = start_connection();
     $result = execute_query($conn, $query);
 
@@ -35,33 +60,20 @@
 
   // find all exercises
   if (isset($_GET['findAllExercises'])) {
-    $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
-      "FROM ps_exercise AS exercise, ps_metric AS metric ". 
-      "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 1";
-
-    $exercises = getExercises($query);
+    $exercises = findAllExercises();
     send_response($exercises);
   }
 
   // find an exercises of an exercise set with the given id
   else if (isset($_GET['findExercisesByExerciseSetId'])) {
-    $id = $_GET['findExercisesByExerciseSetId'];
-
-    $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
-      "FROM ps_exercise AS exercise, ps_metric AS metric, ps_exercise_group AS exercisegroup ". 
-      "WHERE exercise.metric_id = metric.id AND exercise.id = exercisegroup.exercise_id AND ".
-      "exercisegroup.parent_exercise_id = $id ORDER BY exercisegroup.order_in_group";
-    $exercises = getExercises($query);
+    $exerciseSetId = $_GET['exerciseSetId'];
+    $exercises = findExercisesByExerciseSetId($exerciseSetId);
     send_response($exercises);
   }
 
   // find all exercise sets
   else if (isset($_GET['findAllExerciseSets'])) {
-    $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
-      "FROM ps_exercise AS exercise, ps_metric AS metric ". 
-      "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 0";
-
-    $exerciseSets = getExercises($query);
+    $exerciseSets = findAllExerciseSets();
     send_response($exerciseSets);
   } 
 ?>

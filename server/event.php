@@ -3,7 +3,26 @@
   require('connection.php');
   require('rest.php');
 
-  function getEvents($query) {
+  function findAllEventsByUserId($userId) {
+    $query = "SELECT event.id, event_type.name, event.event_date ".
+      "FROM ps_event event, ps_event_type event_type ".
+      "WHERE event.event_type_id = event_type.id AND event.user_id = $userId";
+
+    return buildEventListFromQuery($query);
+  }
+
+  function findExercisesByEventDateAndUserId($eventDate, $userId) {
+    $query = "SELECT event_exercise.id, exercise.name, exercise.is_exercise, metric.unit, ".
+      "event_exercise.exercise_load, event_type.name AS event_type_name ". 
+      "FROM ps_exercise AS exercise, ps_metric AS metric, ps_event_exercise event_exercise, ps_event evnt, ps_event_type event_type ".
+      "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 1 AND exercise.id = event_exercise.exercise_id AND ".
+      "evnt.id = event_exercise.event_id AND evnt.event_type_id = event_type.id AND evnt.event_date = '".$eventDate."' AND ".
+      "evnt.user_id = $userId";
+      
+      return buildEventExerciseListFromQuery($query);
+  }
+
+  function buildEventListFromQuery($query) {
     $conn = start_connection();
     $result = execute_query($conn, $query);
 
@@ -32,7 +51,7 @@
     }
   }
 
-  function getEventExercises($query) {
+  function buildEventExerciseListFromQuery($query) {
     $conn = start_connection();
     $result = execute_query($conn, $query);
 
@@ -66,29 +85,31 @@
 
   // find all events of a given user id
   if (isset($_GET['findAllEventsByUserId'])) {
-    $userId = $_GET['findAllEventsByUserId'];
-    $query = "SELECT event.id, event_type.name, event.event_date ".
-      "FROM ps_event event, ps_event_type event_type ".
-      "WHERE event.event_type_id = event_type.id AND event.user_id = $userId";
-
-    $events = getEvents($query);
+    $userId = $_GET['userId'];
+    $events = findAllEventsByUserId($userId);
     send_response($events);
   }
 
   // find all exercises in an event (the event date is given)
   // and an user id. Each exercise contains a flag informing if it 
   // is planned, goal or done
-  else if (isset($_GET['findExercisesByEventDate'])) {
-    $eventDate = $_GET['findExercisesByEventDate'];
+  else if (isset($_GET['findExercisesByEventDateAndUserId'])) {
+    $eventDate = $_GET['eventDate'];
     $userId = $_GET['userId'];
-    $query = "SELECT event_exercise.id, exercise.name, exercise.is_exercise, metric.unit, ".
-      "event_exercise.exercise_load, event_type.name AS event_type_name ". 
-      "FROM ps_exercise AS exercise, ps_metric AS metric, ps_event_exercise event_exercise, ps_event evnt, ps_event_type event_type ".
-      "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 1 AND exercise.id = event_exercise.exercise_id AND ".
-      "evnt.id = event_exercise.event_id AND evnt.event_type_id = event_type.id AND evnt.event_date = '".$eventDate."' AND ".
-      "evnt.user_id = $userId";
-      
-      $eventExercises = getEventExercises($query);
-      send_response($eventExercises);
+    $eventExercises = findExercisesByEventDateAndUserId($eventDate, $userId);
+    send_response($eventExercises);
+
+  } else if (isset($_GET['insertExerciseSetEvent'])) {
+    if (!isset($_GET['eventTypeId'])) die();
+    if (!isset($_GET['userId'])) die();
+    if (!isset($_GET['eventDate'])) die();
+    if (!isset($_GET['exerciseSetId'])) die();
+    if (!isset($_GET['exerciseSetLoad'])) die();
+
+    $eventTypeId = $_GET['eventTypeId'];
+    $userId = $_GET['userId'];
+    $eventDate = $_GET['eventDate'];
+    $exerciseSetId = $_GET['exerciseSetId'];
+    $exerciseSetLoad = $_GET['exerciseSetLoad'];
   }
 ?>

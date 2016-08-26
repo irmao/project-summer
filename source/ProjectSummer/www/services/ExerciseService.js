@@ -21,7 +21,7 @@
          * Returns a promise of getting a list of exercises given the exercise set id 
          */
         getExercisesByExerciseSetId: function(id) {
-          return ConnectionService.executeServerRequest('/exercise.php?findExercisesByExerciseSetId='+id);
+          return ConnectionService.executeServerRequest('/exercise.php?findExercisesByExerciseSetId=1&exerciseSetId='+id);
         },
 
         /**

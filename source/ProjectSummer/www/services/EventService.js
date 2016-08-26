@@ -14,7 +14,7 @@
          * Returns a promise of getting a list with all events related to an user id
          */
         getAllEventsByUserId: function(userId) {
-          return ConnectionService.executeServerRequest('/event.php?findAllEventsByUserId='+userId);
+          return ConnectionService.executeServerRequest('/event.php?findAllEventsByUserId=1&userId='+userId);
         },
 
         /**
@@ -22,7 +22,7 @@
          * inside an event which is happening in a given day 
          */
         getExercisesByEventDateAndUserId: function(eventDate, userId) {
-          var addr = '/event.php?findExercisesByEventDate='+eventDate+'&userId='+userId;
+          var addr = '/event.php?findExercisesByEventDateAndUserId=1&eventDate='+eventDate+'&userId='+userId;
           console.log(addr);
           return ConnectionService.executeServerRequest(addr);
         }
