@@ -3,7 +3,7 @@
 
   var app = angular.module('ProjectSummerApp.controllers');
 
-  app.controller('TrainingController', function($scope, ExerciseService, StateService) {
+  app.controller('TrainingController', function($scope, ExerciseService, StateService, EventService) {
       $scope.initController = function () {
         $scope.exerciseListLoaded = false;
         loadExercises(StateService.getStateParams()['exerciseSetId']);
@@ -21,11 +21,13 @@
        * Loads the exercises from the database and adds them to the scope
        */
       function loadExercises (exerciseSetId) {
-        if (!exerciseSetId) {
-          return;
+        // load by exercise set id, if one is given
+        if (exerciseSetId) {
+          $scope.promise = ExerciseService.getExercisesByExerciseSetId(exerciseSetId);
+        } else {
+          // load 
+          $scope.promise = EventService.getExercisesByEventDateAndUserId(new Date(), 1);
         }
-
-        $scope.promise = ExerciseService.getExercisesByExerciseSetId(exerciseSetId);
 
         var successCallback = function (response) {
           var data = response.data;
@@ -43,7 +45,10 @@
             index++;
           }, this);
         
-          $scope.exerciseListLoaded = true;
+          if ($scope.exerciseList.length > 0) {
+            $scope.exerciseListLoaded = true;
+          }
+          
           $scope.enabledExerciseId = 0; 
         } 
 

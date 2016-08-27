@@ -10,7 +10,7 @@
       };
 
       $scope.buttonEODClick = function () {
-        StateService.goToState('TrainingState', {exerciseSetId: 12});
+        StateService.goToState('TrainingState');
       };
 
       $scope.buttonPlanningClick = function () {

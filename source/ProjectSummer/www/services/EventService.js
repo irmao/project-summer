@@ -9,6 +9,14 @@
    * Service responsible for making requests to the server regarding the Events features
    */
   app.service('EventService', function(ConnectionService) {
+      /**
+       * Takes a JS date variable and returns a string in the format 'yyyy-mm-dd' 
+       */
+      function formatDate(date) {
+        return date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) 
+            + '-' + date.getDate();
+      };
+
       return {
         /**
          * Returns a promise of getting a list with all events related to an user id
@@ -22,13 +30,15 @@
          * inside an event which is happening in a given day 
          */
         getExercisesByEventDateAndUserId: function(eventDate, userId) {
-          var addr = '/event.php?findExercisesByEventDateAndUserId=1&eventDate='+eventDate+'&userId='+userId;
+          var dateAsString = formatDate(eventDate);
+          var addr = '/event.php?findExercisesByEventDateAndUserId=1&eventDate='+dateAsString+'&userId='+userId;
           return ConnectionService.executeServerRequest(addr);
         },
 
         insertExerciseSetEvent : function(eventTypeId, userId, eventDate, exerciseSetId, exerciseSetLoad) {
+          var dateAsString = formatDate(eventDate);
           var addr = '/event.php?insertExerciseSetEvent=1&eventTypeId='+eventTypeId
-            +'&userId='+userId+'&eventDate='+eventDate+'&exerciseSetId='+exerciseSetId
+            +'&userId='+userId+'&eventDate='+dateAsString+'&exerciseSetId='+exerciseSetId
             +'&exerciseSetLoad='+exerciseSetLoad;
           return ConnectionService.executeServerRequest(addr);
         }

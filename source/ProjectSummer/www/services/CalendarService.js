@@ -46,11 +46,6 @@
             calendar.fullCalendar('addEventSource', events);
             calendar.fullCalendar('rerenderEvents');
           }
-      },
-
-      formatDate: function(date) {
-          return date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) 
-            + '-' + date.getDate();
       }
     };      
   });

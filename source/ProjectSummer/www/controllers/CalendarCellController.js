@@ -3,7 +3,7 @@
 
   var app = angular.module('ProjectSummerApp.controllers');
 
-  app.controller('CallendarCellController', function($scope, StateService, EventService, CalendarService) {
+  app.controller('CallendarCellController', function($scope, StateService, EventService) {
       $scope.initController = function () {
         var today = new Date();
         today.setHours(0,0,0,0);
@@ -25,14 +25,12 @@
       }
 
       $scope.insertDefaultExercise = function() {
-        var cellDate = CalendarService.formatDate($scope.cellDate);
-        EventService.insertExerciseSetEvent(EventModel.PLANNED, 1, cellDate, 12, 1);
+        EventService.insertExerciseSetEvent(EventModel.PLANNED, 1, $scope.cellDate, 12, 1);
         StateService.goToState('HomeState');
       }
 
       function loadEventExercises(cellDate) {
-        var dateAsString = CalendarService.formatDate(cellDate);
-        $scope.promise = EventService.getExercisesByEventDateAndUserId(dateAsString, 1);
+        $scope.promise = EventService.getExercisesByEventDateAndUserId(cellDate, 1);
 
         var successCallback = function (response) {
           var data = response.data;
