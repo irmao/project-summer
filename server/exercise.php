@@ -1,14 +1,14 @@
 <?php
   error_reporting( E_ALL );
-  require('connection.php');
-  require('rest.php');
+  require_once('connection.php');
+  require_once('rest.php');
 
   function findAllExercises() {
      $query = "SELECT exercise.id, exercise.name, exercise.suggested_load, exercise.is_exercise, metric.unit ". 
       "FROM ps_exercise AS exercise, ps_metric AS metric ". 
       "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 1";
 
-      return buildJSONExerciseListFromObjectList(buildExerciseListFromQuery($query));
+      return buildExerciseListFromQuery($query);
   }
 
   function findExercisesByExerciseSetId($exerciseSetId) {
@@ -17,7 +17,7 @@
         "WHERE exercise.metric_id = metric.id AND exercise.id = exercisegroup.exercise_id AND ".
         "exercisegroup.parent_exercise_id = $exerciseSetId ORDER BY exercisegroup.order_in_group";
 
-      return buildJSONExerciseListFromObjectList(buildExerciseListFromQuery($query));
+      return buildExerciseListFromQuery($query);
   }
 
   function findAllExerciseSets() {
@@ -25,7 +25,7 @@
         "FROM ps_exercise AS exercise, ps_metric AS metric ". 
         "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 0";
 
-      return buildJSONExerciseListFromObjectList(buildExerciseListFromQuery($query));
+      return buildExerciseListFromQuery($query);
   }
 
   function buildJSONExerciseListFromObjectList($exerciseList) {
@@ -78,20 +78,20 @@
 
   // find all exercises
   if (isset($_GET['findAllExercises'])) {
-    $exercises = findAllExercises();
+    $exercises = buildJSONExerciseListFromObjectList(findAllExercises());
     send_response($exercises);
   }
 
   // find an exercises of an exercise set with the given id
   else if (isset($_GET['findExercisesByExerciseSetId'])) {
     $exerciseSetId = $_GET['exerciseSetId'];
-    $exercises = findExercisesByExerciseSetId($exerciseSetId);
+    $exercises = buildJSONExerciseListFromObjectList(findExercisesByExerciseSetId($exerciseSetId));
     send_response($exercises);
   }
 
   // find all exercise sets
   else if (isset($_GET['findAllExerciseSets'])) {
-    $exerciseSets = findAllExerciseSets();
+    $exerciseSets = buildJSONExerciseListFromObjectList(findAllExerciseSets());
     send_response($exerciseSets);
   } 
 ?>

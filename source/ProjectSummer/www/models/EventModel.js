@@ -30,3 +30,7 @@ var EventModel = function () {
         return color;
     }
 };
+
+EventModel.GOAL = 1;
+EventModel.PLANNED = 2;
+EventModel.DONE = 3;

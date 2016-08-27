@@ -1,7 +1,7 @@
 <?php
   error_reporting( E_ALL );
   
-  require('connection_config.php');
+  require_once('connection_config.php');
 
   function start_connection() {
     return _start_connection();
@@ -21,5 +21,9 @@
 
   function fetch_assoc($result) {
     return _fetch_assoc($result);
+  }
+
+  function insert_id($conn, $result) {
+    return _insert_id($conn, $result);
   }
 ?>

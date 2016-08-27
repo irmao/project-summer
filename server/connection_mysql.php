@@ -32,4 +32,8 @@
   function _fetch_assoc($result) {
     return mysqli_fetch_assoc($result);
   }
+
+  function _insert_id($conn, $result) {
+    return mysqli_insert_id($conn);
+  }
 ?>

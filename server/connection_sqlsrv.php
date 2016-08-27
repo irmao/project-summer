@@ -35,4 +35,10 @@
   function _fetch_assoc($result) {
     return sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC);
   }
+
+  function _insert_id($conn, $result) {
+    $resource = sqlsrv_query($conn, "SELECT SCOPE_IDENTITY");
+    sqlsrv_fetch($resource);
+    return sqlsrv_get_field($resource, 0);
+  }
 ?>

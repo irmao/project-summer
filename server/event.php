@@ -1,7 +1,8 @@
 <?php
   error_reporting( E_ALL );
-  require('connection.php');
-  require('rest.php');
+  require_once('exercise.php');
+  require_once('connection.php');
+  require_once('rest.php');
 
   function findAllEventsByUserId($userId) {
     $query = "SELECT event.id, event_type.name, event.event_date ".
@@ -20,6 +21,39 @@
       "evnt.user_id = $userId";
       
       return buildEventExerciseListFromQuery($query);
+  }
+
+  function insertExerciseSetEvent($eventTypeId, $userId, $eventDate, $exerciseSetId, $exerciseSetLoad) {
+    $exerciseList = findExercisesByExerciseSetId($exerciseSetId);
+
+    if (count($exerciseList > 0)) {
+      $conn = start_connection();
+      $query = "INSERT INTO ps_event(event_type_id, user_id, event_date) VALUES ($eventTypeId, $userId, '$eventDate')";
+      
+      $result = execute_query($conn, $query);
+      $eventId = insert_id($conn, $result);
+
+      if ($result) {
+        $query = "INSERT INTO ps_event_exercise(event_id, exercise_id, exercise_load) VALUES ";
+
+        foreach ($exerciseList as $row) {
+          $query = $query 
+            ."($eventId,"
+            .$row['id'].","
+            .($exerciseSetLoad*$row['suggested_load'])."),";
+        }
+
+        // removes the extra ',' char
+        $query = substr($query, 0, -1);
+        $result = execute_query($conn, $query);
+
+      } else {
+        echo "Error creating event";
+      }
+
+      close_connection($conn);
+    }
+    
   }
 
   function buildEventListFromQuery($query) {
@@ -111,5 +145,7 @@
     $eventDate = $_GET['eventDate'];
     $exerciseSetId = $_GET['exerciseSetId'];
     $exerciseSetLoad = $_GET['exerciseSetLoad'];
+
+    insertExerciseSetEvent($eventTypeId, $userId, $eventDate, $exerciseSetId, $exerciseSetLoad);
   }
 ?>

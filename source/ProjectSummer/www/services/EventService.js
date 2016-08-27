@@ -23,7 +23,14 @@
          */
         getExercisesByEventDateAndUserId: function(eventDate, userId) {
           var addr = '/event.php?findExercisesByEventDateAndUserId=1&eventDate='+eventDate+'&userId='+userId;
-          console.log(addr);
+          return ConnectionService.executeServerRequest(addr);
+        },
+
+        insertExerciseSetEvent : function(eventTypeId, userId, eventDate, exerciseSetId, exerciseSetLoad) {
+          var addr = '/event.php?insertExerciseSetEvent=1&eventTypeId='+eventTypeId
+            +'&userId='+userId+'&eventDate='+eventDate+'&exerciseSetId='+exerciseSetId
+            +'&exerciseSetLoad='+exerciseSetLoad;
+
           return ConnectionService.executeServerRequest(addr);
         }
       };
