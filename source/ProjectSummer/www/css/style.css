@@ -58,6 +58,12 @@
     min-height: 2em;
 }
 
+.fc-event,
+.fc-agenda .fc-event-time,
+.fc-event a {
+    height: 1px;
+}
+
 td.no-border {
   border-style: none;
   border-width: 0;

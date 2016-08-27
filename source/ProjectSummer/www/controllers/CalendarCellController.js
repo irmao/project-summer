@@ -11,21 +11,35 @@
         var localTimezone = today.toTimeString().substr(8);
         var cellDate = new Date(StateService.getStateParams()['cellDate'] + localTimezone);
 
+        var eventExerciseList = StateService.getStateParams()['eventExerciseList'];
+
         if (cellDate) {
           var today = new Date();
           today.setHours(0,0,0,0);
           $scope.inThePast = (cellDate < today);
-          loadEventExercises(cellDate);
           $scope.cellDate = cellDate;
+
+          if (eventExerciseList) {
+            $scope.eventExerciseList = eventExerciseList;
+            
+          } else {
+            loadEventExercises(cellDate);
+          }
+          
         }
-      };
+      }
 
       $scope.isInThePast = function () {
         return $scope.inThePast;
       }
 
-      $scope.insertDefaultExercise = function() {
+      $scope.insertPlannedExercise = function() {
         EventService.insertExerciseSetEvent(EventModel.PLANNED, 1, $scope.cellDate, 12, 1);
+        StateService.goToState('HomeState');
+      }
+
+      $scope.insertGoal = function () {
+        EventService.insertExerciseSetEvent(EventModel.GOAL, 1, $scope.cellDate, 12, 1);
         StateService.goToState('HomeState');
       }
 

@@ -65,7 +65,7 @@
             }
         })
         .state('CalendarCellState', {
-            url: '/CallendarCell/{cellDate}',
+            url: '/CallendarCell/{cellDate}/{eventExerciseList}',
             templateUrl : 'pages/CallendarCellPage.html',
             controller  : 'CallendarCellController',
             parent      : 'NavigationSaveState'

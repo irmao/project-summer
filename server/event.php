@@ -13,12 +13,23 @@
   }
 
   function findExercisesByEventDateAndUserId($eventDate, $userId) {
-    $query = "SELECT event_exercise.id, exercise.name, exercise.is_exercise, metric.unit, ".
+    $query = "SELECT exercise.id, exercise.name, exercise.is_exercise, metric.unit, ".
       "event_exercise.exercise_load, event_type.name AS event_type_name ". 
       "FROM ps_exercise AS exercise, ps_metric AS metric, ps_event_exercise event_exercise, ps_event evnt, ps_event_type event_type ".
       "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 1 AND exercise.id = event_exercise.exercise_id AND ".
       "evnt.id = event_exercise.event_id AND evnt.event_type_id = event_type.id AND evnt.event_date = '".$eventDate."' AND ".
-      "evnt.user_id = $userId";
+      "evnt.user_id = $userId ORDER BY event_exercise.id";
+      
+      return buildEventExerciseListFromQuery($query);
+  }
+
+  function findExercisesByEventDateUserIdAndEventTypeId($eventDate, $userId, $eventTypeId) {
+    $query = "SELECT exercise.id, exercise.name, exercise.is_exercise, metric.unit, ".
+      "event_exercise.exercise_load, event_type.name AS event_type_name ". 
+      "FROM ps_exercise AS exercise, ps_metric AS metric, ps_event_exercise event_exercise, ps_event evnt, ps_event_type event_type ".
+      "WHERE exercise.metric_id = metric.id AND exercise.is_exercise = 1 AND exercise.id = event_exercise.exercise_id AND ".
+      "evnt.id = event_exercise.event_id AND evnt.event_type_id = event_type.id AND evnt.event_date = '".$eventDate."' AND ".
+      "evnt.user_id = $userId AND event_type.id = $eventTypeId ORDER BY event_exercise.id";
       
       return buildEventExerciseListFromQuery($query);
   }
@@ -54,6 +65,42 @@
       close_connection($conn);
     }
     
+  }
+
+  function insertExerciseEventList($eventTypeId, $userId, $eventDate, $exerciseIdList, $exerciseLoadList) {
+    if (count($exerciseIdList) < 1) {
+      return;
+    }
+
+    if (count($exerciseIdList) != count($exerciseLoadList)) {
+      return;
+    }
+
+    $conn = start_connection();
+    $query = "INSERT INTO ps_event(event_type_id, user_id, event_date) VALUES ($eventTypeId, $userId, '$eventDate')";
+    
+    $result = execute_query($conn, $query);
+    $eventId = insert_id($conn, $result);
+
+    if ($result) {
+      $query = "INSERT INTO ps_event_exercise(event_id, exercise_id, exercise_load) VALUES ";
+
+      for ($i=0; $i < count($exerciseIdList); $i++) {
+        $query = $query
+        ."($eventId,"
+        .$exerciseIdList[$i].","
+        .$exerciseLoadList[$i]."),";
+      }
+      
+      // removes the extra ',' char
+      $query = substr($query, 0, -1);
+      $result = execute_query($conn, $query);
+
+    } else {
+      echo "Error creating event";
+    }
+
+    close_connection($conn);
   }
 
   function buildEventListFromQuery($query) {
@@ -133,7 +180,20 @@
     $eventExercises = findExercisesByEventDateAndUserId($eventDate, $userId);
     send_response($eventExercises);
 
-  } else if (isset($_GET['insertExerciseSetEvent'])) {
+  } 
+
+  // find all exercises in an event (the event date is given),
+  // an user id, and the event type id.  
+  else if (isset($_GET['findExercisesByEventDateUserIdAndEventTypeId'])) {
+    $eventDate = $_GET['eventDate'];
+    $userId = $_GET['userId'];
+    $eventTypeId = $_GET['eventTypeId'];
+    $eventExercises = findExercisesByEventDateUserIdAndEventTypeId($eventDate, $userId, $eventTypeId);
+    send_response($eventExercises);
+
+  } 
+  
+  else if (isset($_GET['insertExerciseSetEvent'])) {
     if (!isset($_GET['eventTypeId'])) die();
     if (!isset($_GET['userId'])) die();
     if (!isset($_GET['eventDate'])) die();
@@ -147,5 +207,21 @@
     $exerciseSetLoad = $_GET['exerciseSetLoad'];
 
     insertExerciseSetEvent($eventTypeId, $userId, $eventDate, $exerciseSetId, $exerciseSetLoad);
+  }
+
+  else if (isset($_GET['insertExerciseEventList'])) {
+    if (!isset($_GET['eventTypeId'])) die();
+    if (!isset($_GET['userId'])) die();
+    if (!isset($_GET['eventDate'])) die();
+    if (!isset($_GET['exerciseIdList'])) die();
+    if (!isset($_GET['exerciseLoadList'])) die();
+
+    $eventTypeId = $_GET['eventTypeId'];
+    $userId = $_GET['userId'];
+    $eventDate = $_GET['eventDate'];
+    $exerciseIdList = explode(',', $_GET['exerciseIdList']);
+    $exerciseLoadList = explode(',', $_GET['exerciseLoadList']);
+
+    insertExerciseEventList($eventTypeId, $userId, $eventDate, $exerciseIdList, $exerciseLoadList);
   }
 ?>

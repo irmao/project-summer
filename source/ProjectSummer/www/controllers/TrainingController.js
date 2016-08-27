@@ -13,9 +13,25 @@
         $scope.enabledExerciseId++;
       };
 
+      $scope.buttonSaveClick = function () {
+        saveExercises();
+        StateService.goToState('HomeState');
+      }
+
       $scope.isExerciseListLoaded = function () {
         return $scope.exerciseListLoaded;
       };
+
+      function saveExercises () {
+        var exerciseIdList = [];
+        var exerciseLoadList = [];
+
+        for (var i in $scope.exerciseList) {
+          exerciseIdList.push($scope.exerciseList[i].id);
+          exerciseLoadList.push($scope.exerciseList[i].load);
+        }
+        EventService.insertExerciseEventList(EventModel.DONE, 1, new Date(), exerciseIdList, exerciseLoadList);
+      }
 
       /**
        * Loads the exercises from the database and adds them to the scope
@@ -26,7 +42,7 @@
           $scope.promise = ExerciseService.getExercisesByExerciseSetId(exerciseSetId);
         } else {
           // load 
-          $scope.promise = EventService.getExercisesByEventDateAndUserId(new Date(), 1);
+          $scope.promise = EventService.getExercisesByEventDateUserIdAndEventTypeId(new Date(), 1, EventModel.PLANNED);
         }
 
         var successCallback = function (response) {

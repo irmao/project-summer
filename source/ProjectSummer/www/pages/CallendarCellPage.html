@@ -1,5 +1,19 @@
 <div ng-init="initController()">
-  <!-- past cell -->
+ 
+  <p></p>
+
+  <div>
+    <button type="button" class="btn btn-default" 
+            ng-disabled="isInThePast()"
+            ng-click="insertPlannedExercise()">Insert Planned Exercises</button>
+            <button type="button" class="btn btn-default"
+            ng-disabled="isInThePast()" 
+            ng-click="insertGoal()">Insert Goal</button>
+  </div>
+
+  <p></p>
+
+  <!-- list of exercises: visible on past, present and future cells -->
   <div class="list-group">
     <div class="list-group-item" 
         ng-repeat="exercise in eventExerciseList">
@@ -9,11 +23,5 @@
           <span class="btn btn-default pull-right" style="background: {{::exercise.color}}; color: white;">{{::exercise.eventType}}</span> 
         </p>
     </div>
-  </div>
-
-  <!-- future / current date cell -->
-  <div ng-if="!isInThePast()">
-    <button type="button" class="btn btn-default" 
-            ng-click="insertDefaultExercise()">Insert default exercises</button>
   </div>
 </div>

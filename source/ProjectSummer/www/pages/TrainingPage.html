@@ -13,7 +13,11 @@
   </div>
   <div class="active list-group-item" 
     ng-show="isExerciseListLoaded() && exerciseList.length === enabledExerciseId" >
-      <h3>Well Done!</h3>
+      <h3>
+        Well Done!
+        <button type="button" class="btn btn-default pull-right"
+          ng-click="buttonSaveClick()">Save</button>
+      </h3>
   </div>
   <div class="active list-group-item" 
     ng-show="!isExerciseListLoaded()" >
