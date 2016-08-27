@@ -37,7 +37,7 @@
   }
 
   function _insert_id($conn, $result) {
-    $resource = sqlsrv_query($conn, "SELECT SCOPE_IDENTITY");
+    $resource = sqlsrv_query($conn, "SELECT SCOPE_IDENTITY()");
     sqlsrv_fetch($resource);
     return sqlsrv_get_field($resource, 0);
   }

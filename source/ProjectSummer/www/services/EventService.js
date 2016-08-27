@@ -30,7 +30,6 @@
           var addr = '/event.php?insertExerciseSetEvent=1&eventTypeId='+eventTypeId
             +'&userId='+userId+'&eventDate='+eventDate+'&exerciseSetId='+exerciseSetId
             +'&exerciseSetLoad='+exerciseSetLoad;
-
           return ConnectionService.executeServerRequest(addr);
         }
       };
