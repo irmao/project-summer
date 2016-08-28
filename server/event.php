@@ -34,6 +34,16 @@
       return buildEventExerciseListFromQuery($query);
   }
 
+  function deleteEventExercises($eventTypeId, $userId, $eventDate) {
+    $query = "DELETE ps_event, ps_event_exercise FROM ps_event LEFT JOIN ps_event_exercise ON ".
+      "ps_event.id = ps_event_exercise.event_id WHERE ps_event.user_id = $userId AND ". 
+      "ps_event.event_type_id = $eventTypeId AND ps_event.event_date = '".$eventDate."'";
+
+    $conn = start_connection();
+    execute_query($conn, $query);
+    close_connection($conn);
+  }
+
   function insertExerciseSetEvent($eventTypeId, $userId, $eventDate, $exerciseSetId, $exerciseSetLoad) {
     $exerciseList = findExercisesByExerciseSetId($exerciseSetId);
 
@@ -223,5 +233,17 @@
     $exerciseLoadList = explode(',', $_GET['exerciseLoadList']);
 
     insertExerciseEventList($eventTypeId, $userId, $eventDate, $exerciseIdList, $exerciseLoadList);
+  }
+
+  else if (isset($_GET['deleteEventExercises'])) {
+    if (!isset($_GET['eventTypeId'])) die();
+    if (!isset($_GET['userId'])) die();
+    if (!isset($_GET['eventDate'])) die();
+
+    $eventTypeId = $_GET['eventTypeId'];
+    $userId = $_GET['userId'];
+    $eventDate = $_GET['eventDate'];
+    
+    deleteEventExercises($eventTypeId, $userId, $eventDate);
   }
 ?>

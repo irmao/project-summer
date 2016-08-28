@@ -49,7 +49,7 @@ INSERT INTO ps_exercise (name, metric_id, suggested_load, is_exercise) VALUES
 ('Default set', 3, 1, 0),
 ('Running set', 3, 1, 0);
 CREATE TABLE ps_user (
-  id int NOT NULL AUTO INCREMENT,
+  id int NOT NULL AUTO_INCREMENT,
   first_name varchar(250) NOT NULL,
   last_name varchar(250),
   email varchar(250),

@@ -33,13 +33,28 @@
         return $scope.inThePast;
       }
 
-      $scope.insertPlannedExercise = function() {
+      $scope.insertPlanned = function() {
         EventService.insertExerciseSetEvent(EventModel.PLANNED, 1, $scope.cellDate, 12, 1);
         StateService.goToState('HomeState');
       }
 
-      $scope.insertGoal = function () {
+      $scope.insertGoal = function() {
         EventService.insertExerciseSetEvent(EventModel.GOAL, 1, $scope.cellDate, 12, 1);
+        StateService.goToState('HomeState');
+      }
+
+      $scope.clearDone = function() {
+        EventService.deleteEventExercises(EventModel.DONE, 1, $scope.cellDate);
+        StateService.goToState('HomeState');
+      }
+
+      $scope.clearPlanned = function() {
+        EventService.deleteEventExercises(EventModel.PLANNED, 1, $scope.cellDate);
+        StateService.goToState('HomeState');
+      }
+
+      $scope.clearGoal = function() {
+        EventService.deleteEventExercises(EventModel.GOAL, 1, $scope.cellDate);
         StateService.goToState('HomeState');
       }
 

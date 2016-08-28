@@ -5,10 +5,17 @@
   <div>
     <button type="button" class="btn btn-default" 
             ng-disabled="isInThePast()"
-            ng-click="insertPlannedExercise()">Insert Planned Exercises</button>
-            <button type="button" class="btn btn-default"
+            ng-click="insertPlanned()">Insert Planned</button>
+    <button type="button" class="btn btn-default"
             ng-disabled="isInThePast()" 
             ng-click="insertGoal()">Insert Goal</button>
+    <button type="button" class="btn btn-default" 
+            ng-click="clearGoal()">Clear Goal</button>
+    <button type="button" class="btn btn-default" 
+            ng-click="clearPlanned()">Clear Planned</button>
+    <button type="button" class="btn btn-default" 
+            ng-click="clearDone()">Clear Done</button>
+
   </div>
 
   <p></p>

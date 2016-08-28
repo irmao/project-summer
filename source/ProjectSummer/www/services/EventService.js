@@ -60,6 +60,13 @@
             +'&userId='+userId+'&eventDate='+dateAsString+'&exerciseIdList='+exerciseIdList
             +'&exerciseLoadList='+exerciseLoadList;
           return ConnectionService.executeServerRequest(addr);
+        },
+
+        deleteEventExercises: function(eventTypeId, userId, eventDate) {
+          var dateAsString = formatDate(eventDate);
+          var addr = '/event.php?deleteEventExercises=1&eventTypeId='+eventTypeId
+            +'&userId='+userId+'&eventDate='+dateAsString;
+          return ConnectionService.executeServerRequest(addr);
         }
       };
   });
