@@ -47,37 +47,76 @@
   function insertExerciseSetEvent($eventTypeId, $userId, $eventDate, $exerciseSetId, $exerciseSetLoad) {
     $exerciseList = findExercisesByExerciseSetId($exerciseSetId);
 
-    if (count($exerciseList > 0)) {
-      $conn = start_connection();
-      $query = "INSERT INTO ps_event(event_type_id, user_id, event_date) VALUES ($eventTypeId, $userId, '$eventDate')";
-      
-      $result = execute_query($conn, $query);
-      $eventId = insert_id($conn, $result);
+    if (count($exerciseList) > 0) {
+      $exerciseIdListAsString = '';
+      $exerciseLoadListAsString = '';
 
-      if ($result) {
-        $query = "INSERT INTO ps_event_exercise(event_id, exercise_id, exercise_load) VALUES ";
-
-        foreach ($exerciseList as $row) {
-          $query = $query 
-            ."($eventId,"
-            .$row['id'].","
-            .($exerciseSetLoad*$row['suggested_load'])."),";
-        }
-
-        // removes the extra ',' char
-        $query = substr($query, 0, -1);
-        $result = execute_query($conn, $query);
-
-      } else {
-        echo "Error creating event";
+      foreach ($exerciseList as $exercise) {
+        $exerciseIdListAsString = $exerciseIdListAsString . $exercise['id'] . ',';
+        $exerciseLoadListAsString = $exerciseLoadListAsString . ($exercise['suggested_load'] * $exerciseSetLoad) . ',';
       }
 
-      close_connection($conn);
-    }
-    
+      // removes the extra ',' char
+      $exerciseIdListAsString = substr($exerciseIdListAsString, 0, -1);
+      $exerciseLoadListAsString = substr($exerciseLoadListAsString, 0, -1);
+
+      insertExerciseEventList($eventTypeId, $userId, $eventDate, $exerciseIdListAsString, $exerciseLoadListAsString);
+    } 
   }
 
-  function insertExerciseEventList($eventTypeId, $userId, $eventDate, $exerciseIdList, $exerciseLoadList) {
+  // checks the database for exercises with the same parameters as the given arguments given in this 
+  // method (event type id, user id, event date and exercise id). If there are exercises in the database, deletes them and sums
+  // their load in the exercise load array. Returns the new exercise load array
+  // This method does nothing if the eventType corresponds to PLANNED EXERCISE
+  function collapseExercises($conn, $eventTypeId, $userId, $eventDate, $exerciseIdListAsString, $exerciseLoadListAsString) {
+    // DO NOT COLLAPSE PLANNED EXERCISES
+    if ($eventTypeId == 2) {
+      return explode(',', $exerciseLoadListAsString);
+    }
+
+    $query = "SELECT ee.exercise_id AS exercise_id, ee.exercise_load AS exercise_load, ee.id AS event_exercise_id, e.id AS event_id ".
+      "FROM ps_event e, ps_event_exercise ee WHERE e.event_type_id = $eventTypeId AND e.user_id = $userId AND e.event_date = ".
+      "'".$eventDate."' AND ee.exercise_id IN ($exerciseIdListAsString) AND ee.event_id = e.id";
+
+    $exerciseIdList = explode(',', $exerciseIdListAsString);
+    $exerciseLoadList = explode(',', $exerciseLoadListAsString);
+
+    $result = execute_query($conn, $query);
+
+    // sums the exercise load and creates a list of the exercises to be deleted
+    $idsToBeDeleted = '';
+    $foundExercises = false;
+    $eventIds = '';
+
+    while ($row = fetch_assoc($result)) {
+      $foundExercises = true;
+      $index = array_search($row['exercise_id'], $exerciseIdList);
+      $exerciseLoadList[$index] += $row['exercise_load'];
+      $idsToBeDeleted = $idsToBeDeleted . $row['event_exercise_id'] . ',';
+      $eventIds = $eventIds . $row['event_id'] . ',';
+    }
+
+    if ($foundExercises) {
+      // removes the extra ',' char
+      $idsToBeDeleted = substr($idsToBeDeleted, 0, -1);
+      $eventIds = substr($eventIds, 0, -1);
+
+      // deletes the event which load is updated in the exerciseLoadList
+      $query = "DELETE FROM ps_event_exercise WHERE ps_event_exercise.id IN ($idsToBeDeleted)";
+      execute_query($conn, $query);
+
+      // removes all events that don't have associated event_exercises anymore
+      $query = "DELETE FROM ps_event WHERE ps_event.id NOT IN (SELECT ee.event_id FROM ps_event_exercise ee)";
+      execute_query($conn, $query);
+    }
+
+    return $exerciseLoadList;
+  }
+
+  function insertExerciseEventList($eventTypeId, $userId, $eventDate, $exerciseIdListAsString, $exerciseLoadListAsString) {
+    $exerciseIdList = explode(',', $exerciseIdListAsString);
+    $exerciseLoadList = explode(',', $exerciseLoadListAsString);
+
     if (count($exerciseIdList) < 1) {
       return;
     }
@@ -87,6 +126,10 @@
     }
 
     $conn = start_connection();
+    
+    // looks for events on that day. If the is already that exercises, sum the loads
+    $exerciseLoadList = collapseExercises($conn, $eventTypeId, $userId, $eventDate, $exerciseIdListAsString, $exerciseLoadListAsString);
+
     $query = "INSERT INTO ps_event(event_type_id, user_id, event_date) VALUES ($eventTypeId, $userId, '$eventDate')";
     
     $result = execute_query($conn, $query);
@@ -229,10 +272,10 @@
     $eventTypeId = $_GET['eventTypeId'];
     $userId = $_GET['userId'];
     $eventDate = $_GET['eventDate'];
-    $exerciseIdList = explode(',', $_GET['exerciseIdList']);
-    $exerciseLoadList = explode(',', $_GET['exerciseLoadList']);
+    $exerciseIdListAsString = $_GET['exerciseIdList'];
+    $exerciseLoadListAsString = $_GET['exerciseLoadList'];
 
-    insertExerciseEventList($eventTypeId, $userId, $eventDate, $exerciseIdList, $exerciseLoadList);
+    insertExerciseEventList($eventTypeId, $userId, $eventDate, $exerciseIdListAsString, $exerciseLoadListAsString);
   }
 
   else if (isset($_GET['deleteEventExercises'])) {
