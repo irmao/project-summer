@@ -22,7 +22,7 @@
     $result = sqlsrv_query($conn, $query);
 
     if ($result === false ) {
-      printf("error: %s\n", sqlsrv_error($conn));
+      printf("error: %s\n", sqlsrv_errors($conn));
     }
 
     return $result;

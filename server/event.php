@@ -35,7 +35,7 @@
   }
 
   function deleteEventExercises($eventTypeId, $userId, $eventDate) {
-    $query = "DELETE ps_event, ps_event_exercise FROM ps_event LEFT JOIN ps_event_exercise ON ".
+    $query = "DELETE ps_event FROM ps_event LEFT JOIN ps_event_exercise ON ".
       "ps_event.id = ps_event_exercise.event_id WHERE ps_event.user_id = $userId AND ". 
       "ps_event.event_type_id = $eventTypeId AND ps_event.event_date = '".$eventDate."'";
 

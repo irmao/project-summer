@@ -3,19 +3,32 @@
   <p></p>
 
   <div>
-    <button type="button" class="btn btn-default" 
-            ng-disabled="isInThePast()"
-            ng-click="insertPlanned()">Insert Planned</button>
-    <button type="button" class="btn btn-default"
-            ng-disabled="isInThePast()" 
-            ng-click="insertGoal()">Insert Goal</button>
-    <button type="button" class="btn btn-default" 
-            ng-click="clearGoal()">Clear Goal</button>
-    <button type="button" class="btn btn-default" 
-            ng-click="clearPlanned()">Clear Planned</button>
-    <button type="button" class="btn btn-default" 
-            ng-click="clearDone()">Clear Done</button>
-
+    <table class="pull-center" style="border-spacing: 2px; border-collapse: separate; width: 100%;">
+        <tr>
+           <td><b>Insert</b></td>
+           <td rowspan="2"></td>
+           <td><b>Clear</b></td>
+        </tr>
+        <tr>
+           <td>
+                <button type="button" class="btn btn-default" 
+                        ng-disabled="isInThePast()"
+                        ng-click="insertPlanned()">Planned</button>
+                <button type="button" class="btn btn-default"
+                        ng-disabled="isInThePast()" 
+                        ng-click="insertGoal()">Goal</button>
+           </td>
+           <td>
+                <button type="button" class="btn btn-default" 
+                        ng-click="clearGoal()">Goal</button>
+                <button type="button" class="btn btn-default" 
+                        ng-click="clearPlanned()">Planned</button>
+                <button type="button" class="btn btn-default" 
+                        ng-click="clearDone()">Done</button>
+           </td>
+        </tr>
+    </table>
+    <hr/>
   </div>
 
   <p></p>
