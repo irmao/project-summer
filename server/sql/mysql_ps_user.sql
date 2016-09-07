@@ -7,6 +7,3 @@ CREATE TABLE ps_user (
   PRIMARY KEY(id)
 );
 
-INSERT INTO ps_user (first_name, last_name, email) VALUES
-('Vinicius', 'Dias', 'v.fernandesdias@gmail.com');
-

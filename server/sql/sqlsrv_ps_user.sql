@@ -6,6 +6,3 @@ CREATE TABLE ps_user (
   passwd varchar(250)
 );
 
-INSERT INTO ps_user (first_name, last_name, email) VALUES
-('Vinicius', 'Dias', 'v.fernandesdias@gmail.com');
-

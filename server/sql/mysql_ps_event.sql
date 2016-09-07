@@ -6,7 +6,3 @@ CREATE TABLE ps_event (
   PRIMARY KEY(id)
 );
 
-INSERT INTO ps_event (event_type_id, user_id, event_date) VALUES
-(1, 1, '2016-08-24'), -- default goal
-(2, 1, '2016-08-22'), -- default planned
-(3, 1, '2016-08-21'); -- done
