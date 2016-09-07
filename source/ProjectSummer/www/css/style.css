@@ -50,12 +50,16 @@
 .calendar {
   position: absolute;
   top: 70px;
-  font-size: 10px;
+  font-size: 8px;
   max-width: 400px;
 }
 
 .fc-basic-view .fc-body .fc-row {
     min-height: 2em;
+}
+
+.fc table {
+  font-size: 0.9em;
 }
 
 .fc-event,
