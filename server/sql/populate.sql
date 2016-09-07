@@ -11,8 +11,8 @@ INSERT INTO ps_exercise (name, metric_id, suggested_load, is_exercise) VALUES
 ('Time running', 2, 30, 1),
 ('Distance running', 4, 2, 1),
 ('Starter set', 3, 1, 0),
-('Default set', 3, 1, 0),
 ('Running set', 3, 1, 0),
+('Default set', 3, 1, 0),
 ('Half Squats', 3, 10, 1),
 ('Half Walking lunges', 3, 10, 1);
 

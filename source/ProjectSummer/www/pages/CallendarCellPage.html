@@ -2,33 +2,59 @@
  
   <p></p>
 
-  <div>
+  <div style="border: 1px solid #cccccc;">
     <table class="pull-center" style="border-spacing: 2px; border-collapse: separate; width: 100%;">
         <tr>
            <td><b>Insert</b></td>
-           <td rowspan="2"></td>
+           <td rowspan="2" style="border-left: 1px solid #cccccc;">
+           </td>
            <td><b>Clear</b></td>
         </tr>
         <tr>
            <td>
-                <button type="button" class="btn btn-default" 
-                        ng-disabled="isInThePast()"
-                        ng-click="insertPlanned()">Planned</button>
-                <button type="button" class="btn btn-default"
-                        ng-disabled="isInThePast()" 
-                        ng-click="insertGoal()">Goal</button>
+                <table style="border-spacing: 2px; border-collapse: separate; width: 100%;">
+                  <tr>
+                    <td>
+                      <select class="form-control" ng-model="selectedExerciseTypeInsert">
+                        <option value="1"> Goal </option>
+                        <option value="2"> Planned </option>
+                      </select>
+                    </td>
+                    <td>
+                      <select class="form-control" ng-model="selectedExerciseSet">
+                        <option ng-repeat="exerciseSet in getAllExerciseSets()" value="{{::exerciseSet.id}}"> 
+                          {{::exerciseSet.name}} 
+                        </option>
+                      </select>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-default" 
+                        ng-disabled="isInThePast() || selectedExerciseTypeInsert === undefined || selectedExerciseSet === undefined"
+                        ng-click="insertButtonClick()">Insert</button>
+                    </td>
+                  </tr>
+                </table>
            </td>
            <td>
-                <button type="button" class="btn btn-default" 
-                        ng-click="clearGoal($event)">Goal</button>
-                <button type="button" class="btn btn-default" 
-                        ng-click="clearPlanned($event)">Planned</button>
-                <button type="button" class="btn btn-default" 
-                        ng-click="clearDone($event)">Done</button>
+                <table style="border-spacing: 2px; border-collapse: separate; width: 100%;">
+                  <tr>
+                    <td>
+                      <select class="form-control" ng-model="selectedExerciseTypeClear">
+                        <option value="1"> Goal </option>
+                        <option value="2"> Planned </option>
+                        <option value="3"> Done </option>
+                      </select>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-default" 
+                        ng-disabled="selectedExerciseTypeClear === undefined"
+                        ng-click="clearButtonClick($event)">Clear</button>
+                    </td>
+                  </tr>
+                </table>
            </td>
         </tr>
     </table>
-    <hr/>
   </div>
 
   <p></p>

@@ -3,7 +3,7 @@
 
   var app = angular.module('ProjectSummerApp.controllers');
 
-  app.controller('CallendarCellController', function($scope, StateService, EventService, $mdDialog) {
+  app.controller('CallendarCellController', function($scope, StateService, EventService, $mdDialog, ExerciseService) {
       $scope.initController = function () {
         var today = new Date();
         today.setHours(0,0,0,0);
@@ -27,51 +27,63 @@
           }
           
         }
+
+        loadExerciseSets();
+      }
+
+      $scope.getAllExerciseSets = function() {
+        return $scope.allExercises;
       }
 
       $scope.isInThePast = function () {
         return $scope.inThePast;
       }
 
-      $scope.insertPlanned = function() {
-        EventService.insertExerciseSetEvent(EventModel.PLANNED, 1, $scope.cellDate, 12, 1);
+      $scope.insertButtonClick = function() {
+        if ($scope.selectedExerciseTypeInsert === undefined || $scope.selectedExerciseSet === undefined) {
+          return;
+        }
+
+        EventService.insertExerciseSetEvent($scope.selectedExerciseTypeInsert, 1, $scope.cellDate, 
+          $scope.selectedExerciseSet, 1);
         StateService.goToState('HomeState');
       }
 
-      $scope.insertGoal = function() {
-        EventService.insertExerciseSetEvent(EventModel.GOAL, 1, $scope.cellDate, 12, 1);
-        StateService.goToState('HomeState');
-      }
+      $scope.clearButtonClick = function(ev) {
+        if ($scope.selectedExerciseTypeClear === undefined) {
+          return;
+        }
 
-      $scope.clearDone = function(ev) {
         showModal(ev, function(response) {
           if (response === 'yes') {
-            EventService.deleteEventExercises(EventModel.DONE, 1, $scope.cellDate);
+            EventService.deleteEventExercises($scope.selectedExerciseTypeClear, 1, $scope.cellDate);
             StateService.goToState('HomeState');
           }
-        }, modalHandleCancel);
-      }
-
-      $scope.clearPlanned = function(ev) {
-        showModal(ev, function(response){ 
-          if (response === 'yes') {
-            EventService.deleteEventExercises(EventModel.PLANNED, 1, $scope.cellDate);
-            StateService.goToState('HomeState');
-          }
-        }, modalHandleCancel)
-      }
-
-      $scope.clearGoal = function(ev) {
-        showModal(ev, function(response) {
-          if (response === 'yes') {
-            EventService.deleteEventExercises(EventModel.GOAL, 1, $scope.cellDate);
-            StateService.goToState('HomeState');
-          }
-
         }, modalHandleCancel);
       }
 
       function modalHandleCancel() {
+      }
+
+      function loadExerciseSets() {
+        var promise = ExerciseService.getAllExerciseSets();
+
+        var successCallback = function (response) {
+          var data = response.data;
+          
+          var models = [];
+          for (var i in data) {
+            models.push(new ExerciseModel().fromJSON(data[i]));
+          }
+
+          $scope.allExercises = models;
+        } 
+
+        var errorCallback = function (response) {
+          console.log('Error: ', response);
+        }
+
+        promise.then(successCallback, errorCallback);
       }
 
       function loadEventExercises(cellDate) {
