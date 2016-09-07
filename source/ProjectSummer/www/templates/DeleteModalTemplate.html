@@ -1,0 +1,24 @@
+<md-dialog ng-cloak>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Are you sure?</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()"> X </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        Do you really want to delete this item?
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="answer('yes')">
+       Yes
+      </md-button>
+      <md-button ng-click="answer('no')">
+        No
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
+

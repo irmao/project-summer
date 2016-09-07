@@ -3,7 +3,7 @@
 
   var app = angular.module('ProjectSummerApp.controllers');
 
-  app.controller('CallendarCellController', function($scope, StateService, EventService) {
+  app.controller('CallendarCellController', function($scope, StateService, EventService, $mdDialog) {
       $scope.initController = function () {
         var today = new Date();
         today.setHours(0,0,0,0);
@@ -43,19 +43,35 @@
         StateService.goToState('HomeState');
       }
 
-      $scope.clearDone = function() {
-        EventService.deleteEventExercises(EventModel.DONE, 1, $scope.cellDate);
-        StateService.goToState('HomeState');
+      $scope.clearDone = function(ev) {
+        showModal(ev, function(response) {
+          if (response === 'yes') {
+            EventService.deleteEventExercises(EventModel.DONE, 1, $scope.cellDate);
+            StateService.goToState('HomeState');
+          }
+        }, modalHandleCancel);
       }
 
-      $scope.clearPlanned = function() {
-        EventService.deleteEventExercises(EventModel.PLANNED, 1, $scope.cellDate);
-        StateService.goToState('HomeState');
+      $scope.clearPlanned = function(ev) {
+        showModal(ev, function(response){ 
+          if (response === 'yes') {
+            EventService.deleteEventExercises(EventModel.PLANNED, 1, $scope.cellDate);
+            StateService.goToState('HomeState');
+          }
+        }, modalHandleCancel)
       }
 
-      $scope.clearGoal = function() {
-        EventService.deleteEventExercises(EventModel.GOAL, 1, $scope.cellDate);
-        StateService.goToState('HomeState');
+      $scope.clearGoal = function(ev) {
+        showModal(ev, function(response) {
+          if (response === 'yes') {
+            EventService.deleteEventExercises(EventModel.GOAL, 1, $scope.cellDate);
+            StateService.goToState('HomeState');
+          }
+
+        }, modalHandleCancel);
+      }
+
+      function modalHandleCancel() {
       }
 
       function loadEventExercises(cellDate) {
@@ -78,6 +94,22 @@
 
         $scope.promise.then(successCallback, errorCallback);
       }
+
+      function showModal(ev, handleResponseCallback, cancelCallback) {
+          $mdDialog.show({
+              controller: 'DeleteModalController',
+              templateUrl: 'templates/DeleteModalTemplate.html',
+              parent: angular.element(document.body),
+              targetEvent: ev,
+              clickOutsideToClose:true,
+              fullscreen: false
+        })
+        .then(function(response) {
+            handleResponseCallback(response);
+        }, function() {
+            cancelCallback();
+        });
+      };
   });
 
 })();
